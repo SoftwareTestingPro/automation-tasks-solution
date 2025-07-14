@@ -354,8 +354,6 @@ public class Beginner {
 			}
 		}
 	}
-
-		
 	
 	@AfterTest
 	public void end() throws InterruptedException {
