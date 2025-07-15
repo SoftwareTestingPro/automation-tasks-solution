@@ -1,4 +1,4 @@
-package com.qa.Selenium;
+package com.qa.tests;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
@@ -19,32 +18,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import com.qa.base.BaseTest;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-public class Beginner {
-	
-	WebDriver driver;
-	WebDriverWait wait;
-	WebElement element;
-	
-	@BeforeTest
-	public void start() {
-	driver = new EdgeDriver();
-	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-	wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-	}
-	
+public class Beginner extends BaseTest{
+		
 	@Test
 	public void B101Click() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.01-Click.html");
@@ -89,7 +73,6 @@ public class Beginner {
 		element = driver.findElement(By.xpath("//button[@id='colorButton']"));
 		String bgcolor = (String) js.executeScript("return window.getComputedStyle(arguments[0]).getPropertyValue('background-color');", element);
 		String hexColor = Color.fromString(bgcolor).asHex();
-		System.out.println(hexColor);
 		driver.findElement(By.id("user-input1")).sendKeys(hexColor);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon1' and @class='validation-icon success']")));
 		
@@ -123,7 +106,6 @@ public class Beginner {
 	public void B106ValueInput() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.06-ValueInput.html");
 		String text = driver.findElement(By.xpath("//label[@for='inputField1']/following-sibling::input")).getAttribute("value");
-		System.out.println(text);
 		driver.findElement(By.xpath("//input[@id='inputField2']")).sendKeys(text);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'alert-success') and @style='display: block;']")));
 	}
@@ -211,17 +193,17 @@ public class Beginner {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='flagsContainer']/img")));
 		WebElement element = driver.findElement(By.xpath("//div[@id='flagsContainer']/img"));
 		File screenshot1 = element.getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screenshot1, new File("./Screenshots/B116-element.png"));
+		FileUtils.copyFile(screenshot1, new File("./reports/screenshots/B116/B116-element.png"));
 		
 //		Screenshot 2 - Page Screenshot
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='flagsContainer']/img)[3]")));
 		File screenshot2 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(screenshot2, new File("./Screenshots/B116-page.png"));
+		FileUtils.copyFile(screenshot2, new File("./reports/screenshots/B116/B116-page.png"));
 		
 //		Screenshot 3 - Full Page Screenshot
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='flagsContainer']/img)[20]")));
 		Screenshot screenshot3 = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(2000)).takeScreenshot(driver);
-		ImageIO.write(screenshot3.getImage(), "PNG", new File("./Screenshots/B116-fullpage.png"));
+		ImageIO.write(screenshot3.getImage(), "PNG", new File("./reports/screenshots/B116/B116-fullpage.png"));
 	}
 	
 	@Test
@@ -295,7 +277,6 @@ public class Beginner {
 		    if (entry.getValue().size() == 1) {
 		        WebElement uniqueButton = entry.getValue().get(0);
 		        uniqueButton.click(); // or return its locator
-		        System.out.println("Clicked unique button with color: " + entry.getKey());
 		        break;
 		    }
 		}
@@ -353,11 +334,5 @@ public class Beginner {
 				break; // Stop at first mismatch
 			}
 		}
-	}
-	
-	@AfterTest
-	public void end() throws InterruptedException {
-		Thread.sleep(3000);
-		driver.quit();
 	}
 }
