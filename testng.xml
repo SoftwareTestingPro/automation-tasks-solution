@@ -11,8 +11,8 @@
   <test name="Automations Tests">
     <classes>
       <!-- Add your test classes here -->
-      <class name="com.qa.tests.Intermediate"/>
       <class name="com.qa.tests.Beginner"/>
+      <class name="com.qa.tests.Intermediate"/>
       <class name="com.qa.tests.Advanced"/>
     </classes>
   </test>

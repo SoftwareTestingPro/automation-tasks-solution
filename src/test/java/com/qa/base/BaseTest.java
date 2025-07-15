@@ -35,6 +35,7 @@ public class BaseTest {
         options.setExperimentalOption("prefs", prefs);
         
         driver = new EdgeDriver(options);
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
