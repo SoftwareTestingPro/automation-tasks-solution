@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -32,6 +33,14 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.qa.base.BaseTest;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import net.sourceforge.tess4j.*;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
 
 public class Advanced extends BaseTest{
 
@@ -280,17 +289,132 @@ public class Advanced extends BaseTest{
 	public void A310Game() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.10-Game.html");
 		driver.findElement(By.id("showButton")).click();
-		element = wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
 		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
+	
+	@Test
+	public void A311FileUpload() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.11-FileUpload.html");
+		element = driver.findElement(By.id("fileUpload"));
+		element.sendKeys(System.getProperty("user.dir")+"\\pom.xml");
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void A312DragAndDropImg() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.12-DragAndDropImg.html");
+		
+		WebElement source = driver.findElement(By.id("draggableImage"));
+        WebElement target = driver.findElement(By.id("dropBox"));
+
+        Actions actions = new Actions(driver);
+        actions.dragAndDrop(source, target).build().perform();
+		
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void A313SortableTable() throws InterruptedException {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.13-SortableTable.html");
+		
+//		Verify Name column
+		driver.findElement(By.xpath("//th[text()='Name']")).click();
+		Thread.sleep(1000);
+		List<WebElement> Names = driver.findElements(By.xpath("//tr/td[1]"));
+		List<String> Name = new ArrayList<>();
+		for (WebElement el : Names) {
+			Name.add(el.getText().trim());
+		}
+		System.out.println(Name);
+		Name.stream().sorted(String::compareToIgnoreCase).toList().equals(Name);
+		
+//		Verify Designation column
+		driver.findElement(By.xpath("//th[text()='Designation']")).click();
+		Thread.sleep(1000);
+		List<WebElement> Designations = driver.findElements(By.xpath("//tr/td[2]"));
+		List<String> Designation = new ArrayList<>();
+		for (WebElement el : Designations) {
+			Designation.add(el.getText().trim());
+		}
+		System.out.println(Designation);
+		Designation.stream().sorted(String::compareToIgnoreCase).toList().equals(Designation);
+		
+//		Verify Salary column
+		driver.findElement(By.xpath("//th[text()='Salary']")).click();
+		Thread.sleep(1000);
+		List<WebElement> Salaries = driver.findElements(By.xpath("//tr/td[3]"));
+		List<String> Salary = new ArrayList<>();
+		for (WebElement el : Salaries) {
+			Salary.add(el.getText().trim());
+		}
+		System.out.println(Salary);
+		Salary.stream().sorted(String::compareToIgnoreCase).toList().equals(Salary);
+	}
+	
+	@Test
+	public void A314ResizeableElement() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.14-ResizeableElement.html");
+		
+		WebElement resizableBox = driver.findElement(By.id("resizable")); // main box
+		WebElement resizeHandle = driver.findElement(By.id("resizeHandle")); // bottom-right handle
+
+		Dimension currentSize = resizableBox.getSize();
+		int currentWidth = currentSize.getWidth();
+		int currentHeight = currentSize.getHeight();
+
+		// Calculate offset needed
+		int xOffset = 256 - currentWidth;
+		int yOffset = 256 - currentHeight;
+
+		Actions actions = new Actions(driver);
+		actions.clickAndHold(resizeHandle)
+		       .moveByOffset(xOffset, yOffset)
+		       .release()
+		       .build()
+		       .perform();
+		Dimension newSize = resizableBox.getSize();
+		Assert.assertEquals(newSize.getWidth(), 256, newSize.getWidth());
+		Assert.assertEquals(newSize.getHeight(), 256, newSize.getHeight());
+		
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+
+	@Test
+	public void A317SpeechToText() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.17-SpeechToText.html");
+		driver.findElement(By.id("iconButton")).click();
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void A318ImageToText() throws MalformedURLException, IOException, TesseractException {
+		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.18-ImageToText.html");
+		element = driver.findElement(By.id("Image"));
+        String imgUrl = element.getAttribute("src");
+
+        BufferedImage image = ImageIO.read(new URL(imgUrl));
+
+        ITesseract tesseract = new Tesseract();
+        tesseract.setDatapath("data\\Tesseract-OCR");
+        tesseract.setLanguage("eng");
+
+        String result = tesseract.doOCR(image);
+		driver.findElement(By.id("user-input")).sendKeys(result);
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success-message') and contains(text(),'Success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
 	
 //	@Test
 //	public void A301HiddenElement() {
 //		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.01-HiddenElement.html");
 //		driver.findElement(By.id("showButton")).click();
-//		element = wait.until(ExpectedConditions
-//				.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+//		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
 //		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 //	}
 
