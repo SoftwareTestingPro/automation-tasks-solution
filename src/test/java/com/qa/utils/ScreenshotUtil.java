@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 
 public class ScreenshotUtil{
     public static String captureScreenshot(WebDriver driver, String testName) {
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String timestamp = new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date());
         String screenshotPath = System.getProperty("user.dir") + "/reports/screenshots/" + testName + "_" + timestamp + ".png";
 
         try {

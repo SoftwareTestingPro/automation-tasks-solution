@@ -5,12 +5,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-
-import com.qa.utils.util;
-
+import com.qa.reports.ExtentManager;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
@@ -27,7 +23,7 @@ public class BaseTest {
 
     @BeforeSuite
     public void start() throws IOException {
-    	util.deleteReportsFolder();
+    	ExtentManager.deleteReportsFolder();
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.geolocation", 1);
 
