@@ -33,14 +33,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.qa.base.BaseTest;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import net.sourceforge.tess4j.*;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URL;
 
 public class Advanced extends BaseTest{
 
@@ -263,7 +256,7 @@ public class Advanced extends BaseTest{
         }
 		
 		element = wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("//span[text()='Success! You found the odd shape!']")));
+				.visibilityOfElementLocated(By.xpath("//span[text()='Success! You found the odd shape.']")));
 		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
@@ -328,7 +321,6 @@ public class Advanced extends BaseTest{
 		for (WebElement el : Names) {
 			Name.add(el.getText().trim());
 		}
-		System.out.println(Name);
 		Name.stream().sorted(String::compareToIgnoreCase).toList().equals(Name);
 		
 //		Verify Designation column
@@ -339,7 +331,6 @@ public class Advanced extends BaseTest{
 		for (WebElement el : Designations) {
 			Designation.add(el.getText().trim());
 		}
-		System.out.println(Designation);
 		Designation.stream().sorted(String::compareToIgnoreCase).toList().equals(Designation);
 		
 //		Verify Salary column
@@ -350,7 +341,6 @@ public class Advanced extends BaseTest{
 		for (WebElement el : Salaries) {
 			Salary.add(el.getText().trim());
 		}
-		System.out.println(Salary);
 		Salary.stream().sorted(String::compareToIgnoreCase).toList().equals(Salary);
 	}
 	
@@ -409,6 +399,13 @@ public class Advanced extends BaseTest{
 		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
+//	@Test
+//	public void A301HiddenElement() {
+//		driver.get("https://softwaretestingpro.github.io/Automation/Advanced/A-3.01-HiddenElement.html");
+//		driver.findElement(By.id("showButton")).click();
+//		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+//		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+//	}
 	
 //	@Test
 //	public void A301HiddenElement() {

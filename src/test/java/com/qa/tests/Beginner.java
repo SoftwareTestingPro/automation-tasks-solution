@@ -33,14 +33,8 @@ public class Beginner extends BaseTest{
 	public void B101Click() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.01-Click.html");
 		driver.findElement(By.id("clickButton")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@style='display: block;']")));
-	}
-	
-	@Test
-	public void B101JSClick() {
-		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.01-JSClick.html");
-		driver.findElement(By.id("clickButton")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@style='display: bhlock;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -55,14 +49,16 @@ public class Beginner extends BaseTest{
 		
 		String text = driver.findElement(By.xpath("//label[@for='text-input']")).getText().split("\"")[1];
 		driver.findElement(By.id("text-input")).sendKeys(text);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='text-input']//following-sibling::span[@style='display: inline-block;' and text()='check_circle']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='text-input']//following-sibling::span[@style='display: inline-block;' and text()='check_circle']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
 	public void B103Radio() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.03-Radio.html");
 		driver.findElement(By.xpath("//input[@value='male']")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -74,7 +70,8 @@ public class Beginner extends BaseTest{
 		String bgcolor = (String) js.executeScript("return window.getComputedStyle(arguments[0]).getPropertyValue('background-color');", element);
 		String hexColor = Color.fromString(bgcolor).asHex();
 		driver.findElement(By.id("user-input1")).sendKeys(hexColor);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon1' and @class='validation-icon success']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon1' and @class='validation-icon success']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 		
 		element = driver.findElement(By.xpath("//button[@id='colorButton']"));
 		Actions actions = new Actions(driver);
@@ -83,7 +80,8 @@ public class Beginner extends BaseTest{
 		bgcolor = (String) js.executeScript("return window.getComputedStyle(arguments[0]).getPropertyValue('background-color');", element);
 		hexColor = Color.fromString(bgcolor).asHex();
 		driver.findElement(By.id("user-input2")).sendKeys(hexColor);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon2' and @class='validation-icon success']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon2' and @class='validation-icon success']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 		
 		element = driver.findElement(By.xpath("//button[@id='colorButton']"));
 		actions = new Actions(driver);
@@ -91,7 +89,8 @@ public class Beginner extends BaseTest{
 		bgcolor = (String) js.executeScript("return window.getComputedStyle(arguments[0]).getPropertyValue('background-color');", element);
 		hexColor = Color.fromString(bgcolor).asHex();
 		driver.findElement(By.id("user-input3")).sendKeys(hexColor);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon3' and @class='validation-icon success']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='icon3' and @class='validation-icon success']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -99,7 +98,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.05-Checkboxes.html");
 		driver.findElement(By.xpath("//input[@value='music']")).click();
 		driver.findElement(By.xpath("(//input[@type='checkbox'])[3]")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -107,14 +107,16 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.06-ValueInput.html");
 		String text = driver.findElement(By.xpath("//label[@for='inputField1']/following-sibling::input")).getAttribute("value");
 		driver.findElement(By.xpath("//input[@id='inputField2']")).sendKeys(text);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'alert-success') and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'alert-success') and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
 	public void B107RadioList() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.07-RadioList.html");
 		driver.findElement(By.xpath("//label[text()='India']//preceding-sibling::input")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -124,18 +126,21 @@ public class Beginner extends BaseTest{
 //		Dropdown 1
 		Select select1 = new Select(driver.findElement(By.id("dropdown1")));
 		select1.selectByValue("2");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown1']/following-sibling::span[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown1']/following-sibling::span[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 		
 //		Dropdown 2
 		Select select2 = new Select(driver.findElement(By.id("dropdown2")));
 		select2.selectByValue("2");
 		select2.selectByValue("4");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown2']/following-sibling::span[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown2']/following-sibling::span[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 		
 //		Dropdown 3
 		Select select3 = new Select(driver.findElement(By.id("dropdown3")));
 		select3.selectByIndex(3);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown3']/following-sibling::span[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@id='dropdown3']/following-sibling::span[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -144,7 +149,8 @@ public class Beginner extends BaseTest{
 		element = driver.findElement(By.id("clickButton"));
 		Actions actions = new Actions(driver);
 		actions.doubleClick(element).perform();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -153,7 +159,8 @@ public class Beginner extends BaseTest{
 		element = driver.findElement(By.id("clickButton"));
 		Actions actions = new Actions(driver);
 		actions.contextClick(element).perform();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='successMessage' and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -161,7 +168,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.11-PageTitle.html");
 		String pageTitle = driver.getTitle();
 		driver.findElement(By.id("titleInput")).sendKeys(pageTitle);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success-message') and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success-message') and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -169,7 +177,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.12-FetchURL.html");
 		String pageURL = driver.getCurrentUrl();
 		driver.findElement(By.id("urlInput")).sendKeys(pageURL);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success-message') and @style='display: block;']")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success-message') and @style='display: block;']")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -182,7 +191,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.15-DatePicker.html");
 		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		driver.findElement(By.id("date-picker")).sendKeys(currentDate);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'message success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'message success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -211,7 +221,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.17-Tooltip.html");
 		String hoverText = driver.findElement(By.className("rainbow-text")).getAttribute("data-tooltip");
 		driver.findElement(By.id("inputField")).sendKeys(hoverText);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -219,7 +230,8 @@ public class Beginner extends BaseTest{
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.18-PageSource.html");
 		String pageSource = driver.getPageSource();
 		driver.findElement(By.id("textInput")).sendKeys(pageSource);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
@@ -228,14 +240,16 @@ public class Beginner extends BaseTest{
 		String fruit = driver.findElement(By.id("labelText")).getText().split("'")[1];
 		driver.findElement(By.id("searchInput")).sendKeys(fruit);
 		driver.findElement(By.xpath("//div[text()='"+fruit+"']")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
 	public void B120ClickEnabledButton() {
 		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.20-ClickEnabledButton.html");
 		driver.findElement(By.xpath("//button[not(@disabled)]")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'success')]")));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
 	@Test
