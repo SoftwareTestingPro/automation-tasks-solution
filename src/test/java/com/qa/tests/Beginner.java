@@ -349,4 +349,72 @@ public class Beginner extends BaseTest{
 			}
 		}
 	}
+	
+	@Test
+	public void B125HighlightText() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.25-HighlightText.html");
+		
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("highlightSecondText();");
+
+        element = driver.findElement(By.id("successMessage"));
+        Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void B126CaseValidation() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.26-CaseValidation.html");
+		
+		for(int i=1;i<=5;i++) {
+			String text = driver.findElement(By.xpath("(//input[@type='checkbox'])["+i+"]")).getAttribute("title");
+			boolean isUpperCase = text.equals(text.toUpperCase());
+            if(isUpperCase==true)
+            	driver.findElement(By.xpath("(//input[@type='checkbox'])["+i+"]")).click();
+		}
+		
+        driver.findElement(By.className("validate-btn")).click();
+        element = driver.findElement(By.className("success"));
+        Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void B127MatchTheFollowing() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.27-MatchTheFollowing.html");
+
+		for (int i = 1; i <= 3; i++) {
+			WebElement draggable = driver.findElement(By.xpath("(//div[contains(@class,'ui-draggable')])[" + i + "]"));
+			String text = draggable.getText();
+//			System.out.println("'" + text + "'");
+
+			if (text.matches("[0-9]+")) {
+				Actions actions = new Actions(driver);
+				actions.dragAndDrop(draggable,
+						driver.findElement(By.xpath("(//div[contains(@class,'ui-droppable')])[1]"))).build().perform();
+			}
+
+			if (text.matches("[a-z]+")) {
+				Actions actions = new Actions(driver);
+				actions.dragAndDrop(draggable,
+						driver.findElement(By.xpath("(//div[contains(@class,'ui-droppable')])[2]"))).build().perform();
+			}
+
+			if (text.matches("[a-zA-Z0-9]+")) {
+				Actions actions = new Actions(driver);
+				actions.dragAndDrop(draggable,
+						driver.findElement(By.xpath("(//div[contains(@class,'ui-droppable')])[3]"))).build().perform();
+			}
+		}
+
+		element = driver.findElement(By.id("successMessage"));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
+	
+	@Test
+	public void B128OrderConfirmation() {
+		driver.get("https://softwaretestingpro.github.io/Automation/Beginner/B-1.28-OrderConfirmation.html");	
+		String orderNum = driver.findElement(By.xpath("//div[text()='Order Number:']//following-sibling::div")).getText();
+		driver.findElement(By.id("orderInput")).sendKeys(orderNum);
+		element = driver.findElement(By.className("success"));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
 }
