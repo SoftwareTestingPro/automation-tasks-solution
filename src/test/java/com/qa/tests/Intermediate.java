@@ -3,9 +3,12 @@ package com.qa.tests;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import javax.imageio.ImageIO;
+import org.openqa.selenium.io.FileHandler;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +16,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.qa.base.BaseTest;
-
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -493,11 +499,77 @@ public class Intermediate extends BaseTest{
 		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
 	}
 	
-//	@Test
-//	public void I203Train() {
-//		driver.get("https://softwaretestingpro.github.io/Automation/Intermediate/I-2.03-Train.html");
-//		driver.findElement(By.id("showButton")).click();
-//		element = driver.findElement(By.id("successMessage"));
-//		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
-//	}
+	@Test
+	public void I228CompareImages() throws IOException, InterruptedException {
+		driver.get("https://softwaretestingpro.github.io/Automation/Intermediate/I-2.28-CompareImages.html");
+		Thread.sleep(10000);
+		
+        element = driver.findElement(By.xpath("//img[1]"));
+		File image1 = element.getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(image1, new File("./reports/screenshots/I228/Image1.png"));
+		Thread.sleep(1000);
+		
+		element = driver.findElement(By.xpath("//img[2]"));
+		File image2 = element.getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(image2, new File("./reports/screenshots/I228/Image2.png"));
+		Thread.sleep(1000);
+		
+		try {
+			BufferedImage imgA = ImageIO.read(new File("./reports/screenshots/I228/Image1.png"));
+	        BufferedImage imgB = ImageIO.read(new File("./reports/screenshots/I228/Image2.png"));
+
+	        DataBuffer dbA = imgA.getData().getDataBuffer();
+	        DataBuffer dbB = imgB.getData().getDataBuffer();
+
+	        if (dbA.getSize() != dbB.getSize()) 
+	        	driver.findElement(By.xpath("//button[text()='No']")).click();
+
+	        for (int i = 0; i < dbA.getSize(); i++) {
+	            if (dbA.getElem(i) != dbB.getElem(i)) 
+	            	driver.findElement(By.xpath("//button[text()='No']")).click();
+	        }
+	        driver.findElement(By.xpath("//button[text()='Yes']")).click();
+	    } catch (Exception e) {
+	    	driver.findElement(By.xpath("//button[text()='No']")).click();
+	    }
+		
+//		BufferedImage img1 = ImageIO.read(new File("./reports/screenshots/I228/Image1.png"));
+//        BufferedImage img2 = ImageIO.read(new File("./reports/screenshots/I228/Image2.png"));
+//
+//        if (img1.getWidth() == img2.getWidth() && img1.getHeight() == img2.getHeight()) {
+//            for (int y = 0; y < img1.getHeight(); y++) {
+//                for (int x = 0; x < img1.getWidth(); x++) {
+//                	System.out.println(img1.getRGB(x, y)+"==="+img2.getRGB(x, y));
+//                    if (img1.getRGB(x, y) != img2.getRGB(x, y)) {
+//                        driver.findElement(By.xpath("//button[text()='No']")).click();
+//                    }
+//                }
+//            }
+//            driver.findElement(By.xpath("//button[text()='Yes']")).click();
+//        } else {
+//            driver.findElement(By.xpath("//button[text()='No']")).click();
+//        }
+        
+//        boolean isSame = img1.getWidth() == img2.getWidth() && img1.getHeight() == img2.getHeight();
+//
+//        if (isSame) {
+//            outer: for (int y = 0; y < img1.getHeight(); y++) {
+//                for (int x = 0; x < img1.getWidth(); x++) {
+//                    if (img1.getRGB(x, y) != img2.getRGB(x, y)) {
+//                        isSame = false;
+//                        break outer;
+//                    }
+//                }
+//            }
+//        }
+//        
+//        if (isSame) {
+//        	driver.findElement(By.xpath("//button[text()='Yes']")).click();
+//        } else {
+//        	driver.findElement(By.xpath("//button[text()='No']")).click();
+//        }
+        
+		element = driver.findElement(By.className("success"));
+		Assert.assertTrue(element.isDisplayed(), "Success message is not displayed");
+	}
 }
